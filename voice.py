@@ -4,8 +4,9 @@ from pathlib import Path
 import edge_tts
 import config
 
-# The configured voice first; if Microsoft rejects it, fall back to other very clear voices.
-VOICES = [config.VOICE] + [v for v in ("en-US-AriaNeural", "en-US-GuyNeural", "en-GB-RyanNeural") if v != config.VOICE]
+# MALE voices only. The configured voice goes first; if Microsoft rejects it, the next male voice is tried.
+MALE_VOICES = ("en-US-ChristopherNeural", "en-GB-RyanNeural", "en-US-GuyNeural", "en-US-EricNeural")
+VOICES = [config.VOICE] + [v for v in MALE_VOICES if v != config.VOICE]
 _good = [None]   # once a voice works it is kept for the whole video, so every chunk sounds identical
 
 
