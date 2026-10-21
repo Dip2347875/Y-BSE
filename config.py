@@ -25,9 +25,9 @@ RSS_FEEDS = [u.strip() for u in env(
 PEXELS_KEY, PIXABAY_KEY = env("PEXELS_API_KEY"), env("PIXABAY_API_KEY")
 PEXELS_BUDGET = int(env("PEXELS_BUDGET", "150"))        # Pexels allows ~200 requests / hour
 
-# ---- voice (free Microsoft neural voices). Other very clear choices:
-#      en-US-GuyNeural, en-GB-RyanNeural, en-GB-SoniaNeural ----------------
-VOICE = env("EDGE_VOICE", "en-US-AriaNeural")
+# ---- voice: MALE only (free Microsoft neural voices). Other clear male choices:
+#      en-GB-RyanNeural, en-US-GuyNeural, en-US-EricNeural -------------------
+VOICE = env("EDGE_VOICE", "en-US-ChristopherNeural")
 RATE, PITCH = env("TTS_RATE", "-3%"), env("TTS_PITCH", "+0Hz")
 
 # ---- video formats -------------------------------------------------------
