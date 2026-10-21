@@ -25,7 +25,13 @@
         "The Importance of Persistence Consistency",
         "Building New Identities Through Desired Self-Beliefs"
       ],
-      "shorts": [],
+      "shorts": [
+        {
+          "idea": "Habit",
+          "video_id": "emz_PlI-U90",
+          "at": 1792571559.16498
+        }
+      ],
       "long": {
         "done": true,
         "video_id": "1LaKhlzX6jg",
@@ -100,6 +106,7 @@
   },
   "rss_seen": [],
   "playlists": {
-    "Productivity & Habits — Book Summaries": "PLK4m8EVeed8I"
+    "Productivity & Habits — Book Summaries": "PLK4m8EVeed8I",
+    "Productivity & Habits — Book Shorts": "PLKdyJcAZtaDQ"
   }
 }
