@@ -1,0 +1,67 @@
+name: Long video
+on:
+  workflow_dispatch:
+    inputs:
+      now:
+        description: "Publish immediately"
+        type: boolean
+        default: true
+  schedule:
+    - cron: "0 12 * * *"
+    - cron: "0 0 * * *"
+concurrency: book-bot
+permissions:
+  contents: write
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Clean pasted code and check syntax
+        run: |
+          perl -CSD -pi -e 's/\x{00A0}/ /g; s/\x{200B}//g; s/\t/    /g; s/\r$//' *.py
+          python -m py_compile *.py
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-liberation fonts-dejavu-core
+      - run: pip install -r requirements.txt && python setup_assets.py
+      - name: Install local AI engine (free, CPU)
+        run: pip install llama-cpp-python --prefer-binary --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+      - name: Cache AI model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-models-v1
+      - name: Make and upload
+        env:
+          PYTHONUNBUFFERED: "1"
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          BOOK_RSS_FEEDS: ${{ vars.BOOK_RSS_FEEDS }}
+          LOCAL_MODEL: ${{ vars.LOCAL_MODEL }}
+          EDGE_VOICE: ${{ vars.EDGE_VOICE }}
+        run: python main.py --mode long ${{ github.event_name == 'workflow_dispatch' && inputs.now && '--now' || '' }}
+      - name: Save brain
+        if: always()
+        run: |
+          git config user.name "book-bot"
+          git config user.email "bot@users.noreply.github.com"
+          [ -f state/brain.json ] || exit 0
+          cp state/brain.json /tmp/mine.json
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git reset --hard origin/main
+            python merge_brain.py /tmp/mine.json state/brain.json
+            cp state/brain.json /tmp/mine.json
+            git add state/brain.json
+            git commit -m "brain" || exit 0
+            git push && exit 0
+            sleep 4
+          done
+          exit 1
