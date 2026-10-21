@@ -24,7 +24,13 @@
         "Overcoming Fear A Path to Prosperity",
         "Asset Acquisition vs Traditional Employment"
       ],
-      "shorts": [],
+      "shorts": [
+        {
+          "idea": "Core Thesis Introduction",
+          "video_id": "uoE42q5fzlc",
+          "at": 1792598549.2002554
+        }
+      ],
       "long": {
         "done": true,
         "video_id": "nM7UoHuHck0",
@@ -204,6 +210,7 @@
   "playlists": {
     "Productivity & Habits — Book Summaries": "PLK4m8EVeed8I",
     "Productivity & Habits — Book Shorts": "PLKdyJcAZtaDQ",
-    "Business & Money — Book Summaries": "PLPzoa_pgmACU"
+    "Business & Money — Book Summaries": "PLPzoa_pgmACU",
+    "Business & Money — Book Shorts": "PLW1z-DriyNWg"
   }
 }
